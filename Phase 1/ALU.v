@@ -56,8 +56,14 @@ assign ALU_Out = (Opcode == 4'h0) ? Sum:
 				 (Opcode == 4'h5) ? shift_out:
 				 (Opcode == 4'h6) ? shift_out: 
 				 (Opcode == 4'h7) ? Paddsb : 
-				 (Opcode == 4'h8) ? Sum :
-				 (Opcode == 4'h9) ? Sum : 
+				 (Opcode == 4'h8) ? Sum :	// LW
+				 (Opcode == 4'h9) ? Sum : 	// SW
+				(Opcode == 4'h10) ? Sum :	// LLB
+				(Opcode == 4'h11) ? Sum :	// LHB
+				(Opcode == 4'h12) ? Sum :	// B
+				(Opcode == 4'h13) ? Sum :	// BR
+				(Opcode == 4'h14) ? Sum :	// PCS
+				(Opcode == 4'h15) ? Sum :	// HLT
 				 ALU_In1 | ALU_In2;
 
 assign Flags[0] = ((Opcode == 4'h0)& (add_ovfl == 1'b1)) ? 1'b1:
