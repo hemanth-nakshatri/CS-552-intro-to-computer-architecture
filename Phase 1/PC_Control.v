@@ -1,4 +1,4 @@
-module PC_control(
+module PC_Control(
 input B,
 input [2:0] C,  
 input [8:0] I,
@@ -15,8 +15,8 @@ reg [15:0] target_addr;
 wire [15:0] sext = {{7{I[8]}},I[8:0]};
 wire [15:0] lshift;
 
-ADDSUB ntaken_add(.a(PC_in), .b(16'h0002), .sum(notTaken), .ovfl(OvflSub), .sub(1'b0));
-ADDSUB taken_add(.a(notTaken), .b(lshift), .sum(taken), .ovfl(OvflAdd), .sub(1'b0));
+ADD_SUB ntaken_add(.a(PC_in), .b(16'h0002), .sum(notTaken), .ovfl(OvflSub), .sub(1'b0));
+ADD_SUB taken_add(.a(notTaken), .b(lshift), .sum(taken), .ovfl(OvflAdd), .sub(1'b0));
 
 assign lshift = sext << 1;
 

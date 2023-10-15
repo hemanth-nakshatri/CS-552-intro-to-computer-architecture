@@ -1,4 +1,4 @@
-module ALU_16bit(ALU_Out, ALU_In1, ALU_In2, Opcode,Flags, enable);
+module ALU(ALU_Out, ALU_In1, ALU_In2, Opcode,Flags, enable);
 
 input [15:0] ALU_In1, ALU_In2;
 input [3:0] Opcode;

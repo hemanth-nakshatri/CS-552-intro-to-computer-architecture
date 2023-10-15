@@ -45,13 +45,13 @@ data_memory dMem(.data_out(memData), .data_in(reg2), .addr(aluOut), .enable(MemR
 RegisterFile rf(.clk(clk), .rst(~rst_n), .SrcReg1(rs), .SrcReg2(rt), .DstReg(destReg), .WriteReg(RegWrite), 
                 .DstData(regData), .SrcData1(reg1), .SrcData2(reg2));
 //pc control unit
-PC_control pcControl(.B(BEn), .C(instr[11:9]), .I(instr[8:0]), .F(ccc), .PC_in(curr_pc), .PC_out(next_pc));
+PC_Control pcControl(.B(BEn), .C(instr[11:9]), .I(instr[8:0]), .F(ccc), .PC_in(curr_pc), .PC_out(next_pc));
 //cpu control unit
-CPU_control cpuControl(.opc(instr[15:12]), .halt(halt), .RegDst(RegDst), .ALUSrc(ALUSrc), .MemRead(MemRead), 
+CPU_Control cpuControl(.opc(instr[15:12]), .halt(halt), .RegDst(RegDst), .ALUSrc(ALUSrc), .MemRead(MemRead), 
                        .MemWrite(MemWrite), .MemtoReg(MemtoReg), .RegWrite(RegWrite), .Lower(Lower), 
                        .Higher(Higher), .BEn(BEn), .Br(Br), .PCS(PCS));
 //alu for execution
-ALU_16bit aluEx(.ALU_Out(aluOut), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .en(en));
+ALU ALU_Ex(.ALU_Out(aluOut), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(instr[15:12]), .Flags(flag), .enable(en));
 
 //inputs
 assign rs = (Lower | Higher) ? rd : instr[7:4];

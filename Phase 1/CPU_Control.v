@@ -1,4 +1,4 @@
-module CPU_control(opc, halt, RegDst, ALUSrc, MemRead, MemWrite, MemtoReg, RegWrite, Lower, Higher, BEn, Br, PCS);
+module CPU_Control(opc, halt, RegDst, ALUSrc, MemRead, MemWrite, MemtoReg, RegWrite, Lower, Higher, BEn, Br, PCS);
 
 input [15:12] opc;
 output halt, RegDst, ALUSrc, MemRead, MemWrite, MemtoReg, RegWrite, Lower, Higher, BEn, Br, PCS;

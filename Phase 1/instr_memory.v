@@ -28,7 +28,7 @@
 //
 //////////////////////////////////////
 
-module data_memory (data_out, data_in, addr, enable, wr, clk, rst);
+module instr_memory (data_out, data_in, addr, enable, wr, clk, rst);
 
    parameter ADDR_WIDTH = 16;
    output  [15:0] data_out;
