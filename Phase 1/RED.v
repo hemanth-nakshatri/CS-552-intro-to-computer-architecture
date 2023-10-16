@@ -1,28 +1,108 @@
-module RED(A,B,Sum);
+module RED (
+    input [15:0]a,
+    input [15:0]b,
+    output [15:0]sum
+    );
+    
 
-input [15:0] A, B;
-output [15:0] Sum;
+    wire [8:0]suma;
+    wire ca;
+    wire ca1;
 
-wire [8:0] ac, bd;
-wire carry_ac1, carry_ac2, carry_bd1, carry_bd2, carry_sum_1, carry_sum_2, carry_sum3;
-wire [3:0] temp_sum;
+    wire [8:0]sumb;
+    wire cb;
+    wire cb1;
 
-addsub_4bit FA1(.a(A[11:8]), .b(B[11:8]), .cin(0), .sum(ac[3:0]), .cout(carry_ac1), .ovfl(), .gen(), .prop());
-addsub_4bit FA2(.a(A[15:12]), .b(B[15:12]), .cin(carry_ac1), .sum(ac[7:4]), .cout(carry_ac2), .ovfl(), .gen(), .prop());
+    wire cab30;
+    wire cab74;
 
-assign ac[8] = carry_ac2;
+    wire [3:0]temp;
 
-addsub_4bit FA3(.a(A[3:0]), .b(B[3:0]), .cin(0), .sum(bd[3:0]), .cout(carry_bd1), .ovfl(), .gen(), .prop());
-addsub_4bit FA4(.a(A[7:4]), .b(B[7:4]), .cin(carry_bd1), .sum(bd[7:4]), .cout(carry_bd2), .ovfl(), .gen(), .prop());
+    // sum a
+    addsub_4bit U_CLA4_00(
+        .a(a[3:0]),
+        .b(a[11:8]),
+        .cin(1'b0),
+        .sum(suma[3:0]),
+        .cout(ca),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
 
-assign bd[8] = carry_bd2;
+    addsub_4bit U_CLA4_01(
+        .a(a[7:4]),
+        .b(a[15:12]),
+        .cin(ca),
+        .sum(suma[7:4]),
+        .cout(ca1),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
+    
+    assign suma[8] = a[7] ^ a[15] ^ ca1;
 
-// Now add the two results by sign extending the MSB of both to 12 bits.
-addsub_4bit FA5(.a(ac[3:0]), .b(bd[3:0]), .cin(0), .sum(Sum[3:0]), .cout(carry_sum_1), .ovfl(), .gen(), .prop());
-addsub_4bit FA6(.a(ac[7:4]), .b(bd[7:4]), .cin(carry_sum_1), .sum(Sum[7:4]), .cout(carry_sum_2), .ovfl(), .gen(), .prop());
-addsub_4bit FA7(.a({4{ac[8]}}), .b({4{bd[8]}}), .cin(carry_sum_2), .sum(Sum[11:8]), .cout(carry_sum_3), .ovfl(), .gen(), .prop());
+    // sum b
+    addsub_4bit U_CLA4_02(
+        .a(b[3:0]),
+        .b(b[11:8]),
+        .cin(1'b0),
+        .sum(sumb[3:0]),
+        .cout(cb),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
 
-// assign Sum[8] = temp_sum[0];
-assign Sum[15:12] = {4{Sum[11]}};
+    addsub_4bit U_CLA4_03(
+        .a(b[7:4]),
+        .b(b[15:12]),
+        .cin(cb),
+        .sum(sumb[7:4]),
+        .cout(cb1),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
+
+    assign sumb[8] = b[7] ^ b[15] ^ cb1;
+
+    // suma + sumb
+    addsub_4bit U_CLA4_10(
+        .a(suma[3:0]),
+        .b(sumb[3:0]),
+        .cin(1'b0),
+        .sum(sum[3:0]),
+        .cout(cab30),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
+
+    addsub_4bit U_CLA4_11(
+        .a(suma[7:4]),
+        .b(sumb[7:4]),
+        .cin(cab30),
+        .sum(sum[7:4]),
+        .cout(cab74),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
+
+    addsub_4bit U_CLA4_12(
+        .a({4{suma[8]}}),
+        .b({4{sumb[8]}}),
+        .cin(cab74),
+        .sum(temp),
+        .cout(),
+        .ovfl(),
+        .gen(),
+        .prop()
+        );
+
+    assign sum[8] = temp[0];
+    assign sum[15:9] = {7{temp[1]}};
 
 endmodule
