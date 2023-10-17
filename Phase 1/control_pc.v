@@ -25,8 +25,8 @@ module control_pc(
 	assign lshift = sign_ext << 1;
 
 	
-	ADDSUB ntaken_add(.a(pc), .b(16'h0002), .sum(pc_plus_2), .ovfl(ovfl_1), .sub(1'b0));
-	ADDSUB taken_add(.a(pc_plus_2), .b(lshift), .sum(jumped), .ovfl(ovfl_2), .sub(1'b0));
+	ADD_SUB ntaken_add(.a(pc), .b(16'h0002), .sum(pc_plus_2), .ovfl(ovfl_1), .sub(1'b0));
+	ADD_SUB taken_add(.a(pc_plus_2), .b(lshift), .sum(jumped), .ovfl(ovfl_2), .sub(1'b0));
 
     always @(*) begin
         // Determine the target address based on the opcode and condition

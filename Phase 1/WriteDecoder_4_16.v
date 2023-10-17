@@ -1,22 +1,24 @@
-module WriteDecoder_4_16(Wordline, RegId, WriteReg);
-  input [3:0] RegId;
-  input WriteReg;
-  output [15:0] Wordline;
-  assign Wordline = (WriteReg && (RegId == 0)) ? 16'b0000000000000001 :
-                    (WriteReg && (RegId == 1)) ? 16'b0000000000000010 :
-                    (WriteReg && (RegId == 2)) ? 16'b0000000000000100 :
-                    (WriteReg && (RegId == 3)) ? 16'b0000000000001000 :
-                    (WriteReg && (RegId == 4)) ? 16'b0000000000010000 :
-                    (WriteReg && (RegId == 5)) ? 16'b0000000000100000 :
-                    (WriteReg && (RegId == 6)) ? 16'b0000000001000000 :
-                    (WriteReg && (RegId == 7)) ? 16'b0000000010000000 :
-                    (WriteReg && (RegId == 8)) ? 16'b0000000100000000 :
-                    (WriteReg && (RegId == 9)) ? 16'b0000001000000000 :
-                    (WriteReg && (RegId == 10)) ? 16'b0000010000000000 :
-                    (WriteReg && (RegId == 11)) ? 16'b0000100000000000 :
-                    (WriteReg && (RegId == 12)) ? 16'b0001000000000000 :
-                    (WriteReg && (RegId == 13)) ? 16'b0010000000000000 :
-                    (WriteReg && (RegId == 14)) ? 16'b0100000000000000 :
-                    (WriteReg && (RegId == 15)) ? 16'b1000000000000000 : 16'b0000000000000000;
-endmodule
+module WriteDecoder_4_16(RegId, WriteReg, Wordline);
 
+input WriteReg;
+input [3:0] RegId;
+output [15:0] Wordline;
+
+assign Wordline = (WriteReg == 1'b0) ? 16'h0 :
+                  (RegId == 0) ? 16'h1 :
+                  (RegId == 1) ? 16'h2 :
+                  (RegId == 2) ? 16'h4 :
+                  (RegId == 3) ? 16'h8 :
+                  (RegId == 4) ? 16'h10 :
+                  (RegId == 5) ? 16'h20 :
+                  (RegId == 6) ? 16'h40 :
+                  (RegId == 7) ? 16'h80 :
+                  (RegId == 8) ? 16'h100 :
+                  (RegId == 9) ? 16'h200 :
+                  (RegId == 10) ? 16'h400 :
+                  (RegId == 11) ? 16'h800 :
+                  (RegId == 12) ? 16'h1000 :
+                  (RegId == 13) ? 16'h2000 :
+                  (RegId == 14) ? 16'h4000 : 16'h8000;
+
+endmodule // WriteDecoder_4_16

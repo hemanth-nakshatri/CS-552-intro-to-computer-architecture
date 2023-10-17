@@ -2,7 +2,7 @@ module Shifter(opcode, Shift_Out, Shift_In, Shift_Val);
 
 input [1:0] opcode;
 input [15:0] Shift_In;
-input [3:0] Shift_Val;
+input [15:0] Shift_Val;
 output [15:0] Shift_Out;
 
 reg [15:0] s1, s2, s3, s4;
@@ -26,9 +26,6 @@ always @ (*) begin
 			s2 = (Shift_Val[1] ? {s1[1:0],s1[15:2]} : s1);
 			s3 = (Shift_Val[2] ? {s2[3:0],s2[15:4]} : s2);
 			s4 = (Shift_Val[3] ? {s3[7:0],s3[15:8]} : s3);
-		end
-		2'b11: begin
-			s4 = Shift_In;
 		end
 		default: 
 			s4 = Shift_In;
