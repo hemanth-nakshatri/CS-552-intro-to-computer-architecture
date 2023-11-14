@@ -109,7 +109,7 @@ EX_MEM_Latch ex_mem(.clk(clk), .rst(~rst_n), .en(1'b1), .wreg_in(id_ex_wreg), .h
                     .MemWrite_out(ex_mem_MemWrite),.MemtoReg_out(ex_mem_MemtoReg), .RegWrite_out(ex_mem_RegWrite), .PCS_out(ex_mem_PCS),
                     .rt_fwd_out(rt_fwd), .npc_out(ex_mem_npc), .b_out(ex_mem_reg2), .alu_out(ex_mem_aluout), .opcode_out(ex_mem_opc));
 //alu for execution
-ALU_16bit aluEx(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(id_ex_opc), .Flags(flag), .en(en));
+ALU alu(.ALU_Out(ex_aluout), .ALU_In1(aluA), .ALU_In2(aluB), .Opcode(id_ex_opc), .Flags(flag), .en(en));
 //forwarding unit
 forwarding_unit fwd(.em_regwrite(ex_mem_RegWrite), .em_memwrite(ex_mem_MemWrite), .mw_regwrite(mem_wb_RegWrite), .em_dstreg(ex_mem_wreg), .mw_dstreg(mem_wb_wreg),
                     .de_regRs(rsrt_fwd[7:4]), .de_RegRt(rsrt_fwd[3:0]), .em_RegRt(rt_fwd), .mw_regrd(mem_wb_wreg), .em_regrd(ex_mem_wreg), .extoex_fwdA(extoexA), 
